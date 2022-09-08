@@ -17,18 +17,24 @@ public class RabbitMqConsumerService {
     private static final Logger LOGGER = LogManager.getLogger(RabbitMqConsumerService.class.getName());
     private final Queue queue;
     private final ObjectMapper objectMapper;
+    private final StoreService storeService;
 
-    public RabbitMqConsumerService(Queue queue, ObjectMapper objectMapper) {
+    public RabbitMqConsumerService(Queue queue, ObjectMapper objectMapper, StoreService storeService) {
         this.queue = queue;
         this.objectMapper = objectMapper;
+        this.storeService = storeService;
     }
 
+    /**
+     * receives data from rabbitmq and stores them to elasticsearch.
+     *
+     * @param in
+     */
     @RabbitHandler
     public void receive(String in) {
         try {
             MovieModel movieRabbitModel = objectMapper.readValue(in, MovieModel.class);
-            System.out.println();
-            //// TODO: 9/8/2022 store document to elastic
+            storeService.storeDocument(movieRabbitModel);
         } catch (Exception e) {
             LOGGER.catching(e);
         }

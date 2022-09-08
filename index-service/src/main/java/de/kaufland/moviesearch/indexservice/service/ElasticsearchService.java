@@ -64,14 +64,14 @@ public class ElasticsearchService {
     private int socketTimeOut;
     @Value("${elasticsearch.timeOut.connection}")
     private int connectionTimeOut;
-    @Value("${ELASTICSEARCH_USERNAME:elastic}")
+    @Value("${elasticsearch.username}")
     private String username;
-    @Value("${ELASTICSEARCH_PASSWORD:*Kg_zLpl77zszMvkzYJI}")
+    @Value("${elasticsearch.password}")
     private String password;
     private String hostName;
     private String schema;
     private int port;
-    @Value("${ELASTICSEARCH_ADDRESS:https://10.10.10.11:9200/}")
+    @Value("${elasticsearch.address}")
     private String elasticsearchFullAddress;
 
     public ElasticsearchService(ObjectMapper objectMapper) {
@@ -93,6 +93,9 @@ public class ElasticsearchService {
         }
     }
 
+    /**
+     * creates elasticsearch rest high level client and bulk processor.
+     */
     @PostConstruct()
     private void init() {
         parsElasticsearchFullAddress();
@@ -217,6 +220,12 @@ public class ElasticsearchService {
         client.close();
     }
 
+    /**
+     * stores the given model to elasticsearch.
+     *
+     * @param doc
+     * @param indexName
+     */
     public void storeDocument(IndexMovieModel doc, String indexName) {
         try {
             String jsonInString = objectMapper.writeValueAsString(doc);
@@ -229,6 +238,9 @@ public class ElasticsearchService {
         }
     }
 
+    /**
+     * creates index mapping in first startup
+     */
     public void checkAndCreateIndex() {
         try {
             GetIndexRequest request = new GetIndexRequest(indexName);

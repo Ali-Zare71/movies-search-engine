@@ -1,0 +1,57 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "refresh_interval": "10s",
+    "analysis": {
+      "normalizer": {
+        "my_normalizer": {
+          "type": "custom",
+          "filter": [
+            "lowercase",
+            "asciifolding"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "long"
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "standard"
+      },
+      "year": {
+        "type": "text",
+        "analyzer": "standard"
+      },
+      "runtime": {
+        "type": "text",
+        "analyzer": "standard"
+      },
+      "genres": {
+        "type": "text",
+        "analyzer": "standard"
+      },
+      "director": {
+        "type": "text",
+        "analyzer": "standard"
+      },
+      "actors": {
+        "type": "text",
+        "analyzer": "standard"
+      },
+      "plot": {
+        "type": "text",
+        "analyzer": "standard"
+      },
+      "posterUrl": {
+        "type": "text",
+        "analyzer": "standard"
+      }
+    }
+  }
+}
