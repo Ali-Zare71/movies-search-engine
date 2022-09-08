@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StoreService {
-    //    private final ConversionService conversionService;
     private final ElasticsearchService elasticsearchService;
     private final MovieModelToIndexMovieModelConverter movieModelToIndexMovieModelConverter;
     @Value("${index.name}")

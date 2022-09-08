@@ -52,7 +52,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ElasticsearchService {
-    private static final Logger infoLog = LogManager.getLogger("InfoLog");
+    private static final Logger infoLog = LogManager.getLogger("infoLog");
     private static final Logger LOGGER = LogManager.getLogger(RabbitMqConsumerService.class.getName());
     private final ObjectMapper objectMapper;
 

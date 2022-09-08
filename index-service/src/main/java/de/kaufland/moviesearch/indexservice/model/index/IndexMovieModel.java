@@ -16,6 +16,7 @@ public class IndexMovieModel {
     private String runtime;
     private List<String> genres;
     private String director;
+    private List<String> parsedActors;
     private String actors;
     private String plot;
     private String posterUrl;

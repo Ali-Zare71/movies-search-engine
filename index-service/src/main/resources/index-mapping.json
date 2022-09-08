@@ -18,7 +18,8 @@
   "mappings": {
     "properties": {
       "id": {
-        "type": "long"
+        "type": "keyword",
+        "normalizer": "my_normalizer"
       },
       "title": {
         "type": "text",
@@ -34,7 +35,13 @@
       },
       "genres": {
         "type": "text",
-        "analyzer": "standard"
+        "analyzer": "standard",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "normalizer": "my_normalizer"
+          }
+        }
       },
       "director": {
         "type": "text",
@@ -44,13 +51,23 @@
         "type": "text",
         "analyzer": "standard"
       },
+      "parsedActors": {
+        "type": "text",
+        "analyzer": "standard"
+      },
       "plot": {
         "type": "text",
         "analyzer": "standard"
       },
       "posterUrl": {
         "type": "text",
-        "analyzer": "standard"
+        "analyzer": "standard",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "normalizer": "my_normalizer"
+          }
+        }
       }
     }
   }
