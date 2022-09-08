@@ -23,6 +23,11 @@ public class RabbitMqProducerService {
         this.objectMapper = objectMapper;
     }
 
+    /**
+     * stores a movie to rabbitmq
+     *
+     * @param movieModel
+     */
     public void send(MovieModel movieModel) {
         try {
             String message = objectMapper.writeValueAsString(movieModel);
