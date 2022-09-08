@@ -40,6 +40,12 @@ public class SearchService {
         return new SearchResultsDto();
     }
 
+    /**
+     * creates elasticsearch query by user query
+     *
+     * @param query
+     * @return
+     */
     private QueryBuilder createQuery(String query) {
         BoolQueryBuilder result = QueryBuilders.boolQuery();
         result.should(QueryBuilders.matchPhraseQuery(ElasticsearchFields.TITLE.getFieldName(), query).slop(50).boost(2));
@@ -47,6 +53,14 @@ public class SearchService {
         return null;
     }
 
+    /**
+     * creates elasticsearch search request.
+     *
+     * @param query
+     * @param page
+     * @param size
+     * @return
+     */
     private SearchRequest createSearchRequest(QueryBuilder query, int page, int size) {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(query);

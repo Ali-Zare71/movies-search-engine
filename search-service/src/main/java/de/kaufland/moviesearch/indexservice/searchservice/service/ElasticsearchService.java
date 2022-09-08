@@ -164,7 +164,6 @@ public class ElasticsearchService {
 
     /**
      * executes given search request and return the elasticsearch response.
-     *
      * @param searchRequest
      * @return
      */
