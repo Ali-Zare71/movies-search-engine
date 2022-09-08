@@ -79,6 +79,7 @@ public class ElasticsearchService {
     }
 
     private void parsElasticsearchFullAddress() {
+        infoLog.info("elasticsearchFullAddress: " + elasticsearchFullAddress);
         try {
             if (!StringUtils.isEmpty(elasticsearchFullAddress)) {
                 elasticsearchFullAddress = StringUtils.removeEnd(elasticsearchFullAddress, "/");

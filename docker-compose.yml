@@ -49,7 +49,8 @@ services:
       interval: 1s
       timeout: 5s
       retries: 120
-
+    networks:
+      - shared-net
   es01:
     depends_on:
       setup:
@@ -92,6 +93,8 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
+    networks:
+      - shared-net
 
   kibana:
     depends_on:
@@ -119,15 +122,73 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
+    networks:
+      - shared-net
 
   rabbitmq:
     depends_on:
       - "es01"
     container_name: rabbitmq
-    image: rabbitmq:management
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin2017
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - shared-net
+
+  ingestion-api-service:
+    build: ./ingestion-api-service
+    ports:
+      - "8000:8080"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=admin2017
+      - RABBITMQ_QUEUE_NAME=movie
+    depends_on:
+      - "rabbitmq"
+    networks:
+      - shared-net
+
+  index-service:
+    build: ./index-service
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=admin2017
+      - RABBITMQ_QUEUE_NAME=movie
+      - ELASTIC_ADDRESS=https://es01:9200
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_INDEX_NAME=movies
+    depends_on:
+      - "rabbitmq"
+      - "es01"
+      - "ingestion-api-service"
+    networks:
+      - shared-net
+
+  search-service:
+    build: ./search-service
+    ports:
+      - "8001:8080"
+    environment:
+      - ELASTIC_ADDRESS=https://es01:9200
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_INDEX_NAME=movies
+    depends_on:
+      - "rabbitmq"
+      - "es01"
+      - "ingestion-api-service"
+      - "index-service"
+    networks:
+      - shared-net
 
 volumes:
   certs:
@@ -136,4 +197,6 @@ volumes:
     driver: local
   kibanadata:
     driver: local
-
+networks:
+  shared-net:
+    driver: bridge
