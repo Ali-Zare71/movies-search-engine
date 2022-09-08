@@ -120,6 +120,15 @@ services:
       timeout: 10s
       retries: 120
 
+  rabbitmq:
+    depends_on:
+      - "es01"
+    container_name: rabbitmq
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
 volumes:
   certs:
     driver: local
