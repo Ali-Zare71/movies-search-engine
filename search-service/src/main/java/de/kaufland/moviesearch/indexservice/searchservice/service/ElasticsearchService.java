@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class ElasticsearchService {
-    private static final Logger infoLog = LogManager.getLogger("InfoLog");
+    private static final Logger infoLog = LogManager.getLogger("infoLog");
     private static final Logger LOGGER = LogManager.getLogger(ElasticsearchService.class.getName());
 
     @Value("${index.name}")
