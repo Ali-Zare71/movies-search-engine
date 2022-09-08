@@ -31,9 +31,13 @@ public class MovieController {
             @ApiParam(value = "Results page number (starts from 1)")
             @RequestParam(value = "page", defaultValue = "1") int page,
             @ApiParam(value = "Size of each page (maximum is 100)")
-            @RequestParam(value = "size", defaultValue = "10") int size
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @ApiParam(value = "turn fuzzy search on or off")
+            @RequestParam(value = "fuzzy-search", defaultValue = "true") boolean fuzzySearch,
+            @ApiParam(value = "enable or query to retrieve more documents")
+            @RequestParam(value = "or-query", defaultValue = "true") boolean orQuery
 
     ) {
-        return searchService.search(query, page, size);
+        return searchService.search(query, page, size, fuzzySearch, orQuery);
     }
 }

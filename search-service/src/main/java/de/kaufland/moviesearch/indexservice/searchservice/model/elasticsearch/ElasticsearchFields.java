@@ -8,6 +8,7 @@ public enum ElasticsearchFields {
     GENRES("genres"),
     DIRECTOR("director"),
     ACTORS("actors"),
+    PARSED_ACTORS("parsedActors"),
     PLOT("plot"),
     POSTER_URL("posterUrl");
 
