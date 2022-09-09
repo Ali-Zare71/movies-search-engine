@@ -23,7 +23,8 @@
       },
       "title": {
         "type": "text",
-        "analyzer": "standard"
+        "analyzer": "standard",
+        "copy_to": "titleActorsSearch"
       },
       "year": {
         "type": "text",
@@ -49,7 +50,8 @@
       },
       "actors": {
         "type": "text",
-        "analyzer": "standard"
+        "analyzer": "standard",
+        "copy_to": "titleActorsSearch"
       },
       "parsedActors": {
         "type": "text",
@@ -68,6 +70,10 @@
             "normalizer": "my_normalizer"
           }
         }
+      },
+      "titleActorsSearch": {
+        "type": "text",
+        "analyzer": "standard"
       }
     }
   }
