@@ -27,7 +27,6 @@ public class MoviesController {
     @RequestMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, method = RequestMethod.POST)
     public void uploadFile(@RequestPart MultipartFile file) throws FileIsNotParsableException, InvalidIdException, InternalServerErrorException {
         storeMoviesService.store(file);
-//        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "uploads json data")

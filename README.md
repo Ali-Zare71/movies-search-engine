@@ -26,7 +26,7 @@ connect my services and **Elasticsearch** as the search engine. you can see the 
 
 ![Alt text](images/architecture.jpg?raw=true "Figure 1: Architecture")
 
-services details are:
+Services details are:
 
 1. **ingestion-api-service:** This service receives movies data using a restfull api and put the data to **RabbitMQ**.
 
@@ -40,41 +40,41 @@ Compose, Maven, Intellij IDE
 
 ## Build and Run
 
-I used maven to manage dependencies and build the project, and designed docker files and docker compose to build and run
+I used Maven to manage dependencies and build the project, and designed docker files and docker compose to build and run
 the project easily. So you must have maven, docker and docker compose installed in your system and follow this steps to
 run the project:
 
-**1.get the project from git:** you can get the project from GitHub using `clone` command.
+**1. Get the project from git:** You can get the project from GitHub using `clone` command.
 
 ```
 git clone https://github.com/Ali-Zare71/movies-search-engine.git
 ```
 
-**2.build all services:** you can build all services by running `mvn package` command in the root folder of project.
+**2. Build all services:** You can build all services by running `mvn package` command in the root folder of project.
 
 ```
 cd movie-search-engine
 mvn package
 ```
 
-**3.run the project:** After building the project, you can easily build docker images of services and run all of the
-services using **docker-compose**
+**3. Run the project:** After building the project, you can easily build docker images of services and run them and
+their dependencies (like Elasticsearch and RabbitMQ) using **docker-compose**.
 
 ```
 docker-compose up
 ```
 
-Docker will download all of needed images (in the first run) and run the project so this phase may take a while and you
-have to wail until all of the services are up.
+Docker will download all of needed images (in the first run) and run the project so this phase may take a while, and you
+have to wait until all the services are up.
 
 ## How to use?
 
 To use the project you have to insert the data with the standard format to the system and try to retrieve related movies
-regarding given queries. I have designed tow restfull apis to achieve this. one endpoint for data entry and the other
+regarding given queries. I have designed two restfull apis to achieve this. one endpoint for data entry and the other
 one to fetch data:
 
 **1. Data entry:**
-You can import data to the project using the movie endpoint implemented in ingestion-api-service which is easily
+You can import data to the project using the movies endpoint implemented in ingestion-api-service which is easily
 accessible from swagger ui with this address:
 
 http://localhost:8000/swagger-ui/
@@ -82,30 +82,33 @@ http://localhost:8000/swagger-ui/
 In this endpoint you can upload a file or directly send the json data by post requests.
 
 upload a json file:
-http://localhost:8000/movies/upload
+http://localhost:8000/api/movies/upload
 
 upload json text:
-http://localhost:8000/movies/
+http://localhost:8000/api/movies/
 
-here are the screenshots of how to use swagger:
+Here are the screenshots of how to use swagger:
 ![Alt text](images/enrty-endpoint.jpg?raw=true "Figure 2: Entry endpoint")
 
-upload file:
+Upload file:
+
 ![Alt text](images/upload-file.jpg?raw=true "Figure 3: Upload file")
 
-upload json text:
+Upload json text:
 
 ![Alt text](images/json-input.jpg?raw=true "Figure 4: Json input")
 
 **2. Fetch data:**
-You can fetch the data regarding a given query using the movie endpoint implemented in search-service which is easily
+You can fetch the data regarding a given query using the movies endpoint implemented in search-service which is easily
 accessible from swagger ui with this address:
 
 http://localhost:8001/swagger-ui/
 
 Endpoint address:
+http://localhost:8001/api/movies
 
-http://localhost:8001/movie?query=Alec%20Baldwin
+Example:
+http://localhost:8001/api/movies?query=Alec%20Baldwin&page=1&size=10&fuzzy-search=true&or-query=true
 
 here is the screenshot of fetch movies endpoint:
 
@@ -120,3 +123,11 @@ this endpoint gets some parameters:
 | size  | results number in each page (default: 10)   |
 | fuzzy-search  | enables fuzzy search to retrieve more results (default: true)   |
 | or-query  | enables or query search to retrieve more results (default: true)   |
+
+## Todo
+
+This items can be done in next versions:
+
+* Add security to apis
+* Use more fields and futures in ranking phase
+* test ranking results using a dataset and tune the parameters
