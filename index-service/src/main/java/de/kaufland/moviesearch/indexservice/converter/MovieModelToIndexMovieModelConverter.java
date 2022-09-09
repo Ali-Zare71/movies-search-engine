@@ -15,6 +15,8 @@ public class MovieModelToIndexMovieModelConverter implements Converter<MovieMode
 
     @Override
     public IndexMovieModel convert(MovieModel source) {
+        if (source == null)
+            return null;
         List<String> parsedActors = new ArrayList<>();
         if (!StringUtils.isEmpty(source.getActors())) {
             Arrays.stream(source.getActors().split(",")).forEach(s -> parsedActors.add(s.trim()));
