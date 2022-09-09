@@ -12,6 +12,28 @@
             "asciifolding"
           ]
         }
+      },
+      "filter": {
+        "english_stemmer": {
+          "type": "stemmer",
+          "language": "english"
+        },
+        "english_possessive_stemmer": {
+          "type": "stemmer",
+          "language": "possessive_english"
+        }
+      },
+      "analyzer": {
+        "rebuilt_standard": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "asciifolding",
+            "english_stemmer",
+            "english_possessive_stemmer",
+            "apostrophe"
+          ]
+        }
       }
     }
   },
@@ -23,12 +45,12 @@
       },
       "title": {
         "type": "text",
-        "analyzer": "standard",
+        "analyzer": "rebuilt_standard",
         "copy_to": "titleActorsSearch"
       },
       "year": {
         "type": "text",
-        "analyzer": "standard"
+        "analyzer": "rebuilt_standard"
       },
       "runtime": {
         "type": "text",
@@ -36,7 +58,7 @@
       },
       "genres": {
         "type": "text",
-        "analyzer": "standard",
+        "analyzer": "rebuilt_standard",
         "fields": {
           "keyword": {
             "type": "keyword",
@@ -46,24 +68,24 @@
       },
       "director": {
         "type": "text",
-        "analyzer": "standard"
+        "analyzer": "rebuilt_standard"
       },
       "actors": {
         "type": "text",
-        "analyzer": "standard",
+        "analyzer": "rebuilt_standard",
         "copy_to": "titleActorsSearch"
       },
       "parsedActors": {
         "type": "text",
-        "analyzer": "standard"
+        "analyzer": "rebuilt_standard"
       },
       "plot": {
         "type": "text",
-        "analyzer": "standard"
+        "analyzer": "rebuilt_standard"
       },
       "posterUrl": {
         "type": "text",
-        "analyzer": "standard",
+        "analyzer": "rebuilt_standard",
         "fields": {
           "keyword": {
             "type": "keyword",
@@ -73,7 +95,7 @@
       },
       "titleActorsSearch": {
         "type": "text",
-        "analyzer": "standard"
+        "analyzer": "rebuilt_standard"
       }
     }
   }
