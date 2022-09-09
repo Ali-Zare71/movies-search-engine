@@ -1,6 +1,7 @@
 package de.kaufland.moviesearch.ingestionapiservice.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.kaufland.moviesearch.ingestionapiservice.model.exception.InternalServerErrorException;
 import de.kaufland.moviesearch.ingestionapiservice.model.rabbitmq.MovieModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,13 +29,13 @@ public class RabbitMqProducerService {
      *
      * @param movieModel
      */
-    public void send(MovieModel movieModel) {
+    public void send(MovieModel movieModel) throws InternalServerErrorException {
         try {
             String message = objectMapper.writeValueAsString(movieModel);
             this.template.convertAndSend(queue.getName(), message);
         } catch (Exception e) {
             LOGGER.catching(e);
+            throw new InternalServerErrorException();
         }
-
     }
 }

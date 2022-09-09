@@ -2,12 +2,16 @@ package de.kaufland.moviesearch.ingestionapiservice.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.kaufland.moviesearch.ingestionapiservice.model.exception.FileIsNotParsableException;
+import de.kaufland.moviesearch.ingestionapiservice.model.exception.InternalServerErrorException;
+import de.kaufland.moviesearch.ingestionapiservice.model.exception.InvalidIdException;
 import de.kaufland.moviesearch.ingestionapiservice.model.rabbitmq.MovieModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,14 +30,16 @@ public class StoreMoviesService {
      *
      * @param file
      */
-    public void store(MultipartFile file) {
+    public void store(MultipartFile file) throws FileIsNotParsableException, InvalidIdException, InternalServerErrorException {
+        List<MovieModel> movieModels = new ArrayList<>();
         try {
-            List<MovieModel> movieModels = objectMapper.readValue(new String(file.getBytes()), new TypeReference<List<MovieModel>>() {
+            movieModels = objectMapper.readValue(new String(file.getBytes()), new TypeReference<List<MovieModel>>() {
             });
-            store(movieModels);
         } catch (Exception e) {
             LOGGER.catching(e);
+            throw new FileIsNotParsableException();
         }
+        store(movieModels);
     }
 
     /**
@@ -41,9 +47,18 @@ public class StoreMoviesService {
      *
      * @param movieModels
      */
-    public void store(List<MovieModel> movieModels) {
+    public void store(List<MovieModel> movieModels) throws InvalidIdException, InternalServerErrorException {
+        validateData(movieModels);
         for (MovieModel movieModel : movieModels) {
             rabbitMqProducerService.send(movieModel);
+        }
+    }
+
+    private void validateData(List<MovieModel> movieModels) throws InvalidIdException {
+        for (MovieModel movieModel : movieModels) {
+            if (movieModel.getId() == null) {
+                throw new InvalidIdException();
+            }
         }
     }
 
