@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class SearchService {
     private static final Logger LOGGER = LogManager.getLogger(SearchService.class.getName());
@@ -103,6 +106,11 @@ public class SearchService {
         searchSourceBuilder.query(query);
         searchSourceBuilder.from((page - 1) * size);
         searchSourceBuilder.size(size);
+
+        List<String> excludeFields = new ArrayList<>();
+        excludeFields.add(ElasticsearchFields.PARSED_ACTORS.getFieldName());
+        searchSourceBuilder.fetchSource(null, excludeFields.toArray(new String[]{}));
+
         SearchRequest searchRequest = new SearchRequest(indexName);
         searchRequest.source(searchSourceBuilder);
         return searchRequest;
