@@ -19,12 +19,13 @@ principles while designing the application.
 
 Please use the attached json file (movies.json) for indexing. You can just focus on the fields `actors` and `title`.
 
+[Sample Data](readme-data/movies.json)
 ## Architecture
 
 This project was developed using a microservice architecture. there are three main services. I used **RabbitMQ** to
 connect my services and **Elasticsearch** as the search engine. you can see the architecture in the below figure:
 
-![Alt text](images/architecture.jpg?raw=true "Figure 1: Architecture")
+![Alt text](readme-data/architecture.jpg?raw=true "Figure 1: Architecture")
 
 Services details are:
 
@@ -88,15 +89,15 @@ upload json text:
 http://localhost:8000/api/movies/
 
 Here are the screenshots of how to use swagger:
-![Alt text](images/enrty-endpoint.jpg?raw=true "Figure 2: Entry endpoint")
+![Alt text](readme-data/enrty-endpoint.jpg?raw=true "Figure 2: Entry endpoint")
 
 Upload file:
 
-![Alt text](images/upload-file.jpg?raw=true "Figure 3: Upload file")
+![Alt text](readme-data/upload-file.jpg?raw=true "Figure 3: Upload file")
 
 Upload json text:
 
-![Alt text](images/json-input.jpg?raw=true "Figure 4: Json input")
+![Alt text](readme-data/json-input.jpg?raw=true "Figure 4: Json input")
 
 **2. Fetch data:**
 You can fetch the data regarding a given query using the movies endpoint implemented in search-service which is easily
@@ -110,9 +111,9 @@ http://localhost:8001/api/movies
 Example:
 http://localhost:8001/api/movies?query=Alec%20Baldwin&page=1&size=10&fuzzy-search=true&or-query=true
 
-here is the screenshot of fetch movies endpoint:
+Here is the screenshot of fetch movies endpoint:
 
-![Alt text](images/fetch-endpint.jpg?raw=true "Figure 4: Json input")
+![Alt text](readme-data/fetch-endpint.jpg?raw=true "Figure 4: Json input")
 
 this endpoint gets some parameters:
 
@@ -130,4 +131,4 @@ This items can be done in next versions:
 
 * Add security to apis
 * Use more fields and futures in ranking phase
-* test ranking results using a dataset and tune the parameters
+* Test ranking results using a dataset and tune the parameters
