@@ -1,8 +1,8 @@
 package de.kaufland.moviesearch.indexservice.searchservice.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.kaufland.moviesearch.indexservice.searchservice.model.dto.MovieDto;
 import de.kaufland.moviesearch.indexservice.searchservice.model.dto.SearchResultDto;
-import de.kaufland.moviesearch.indexservice.searchservice.model.dto.SearchResultsDto;
 import de.kaufland.moviesearch.indexservice.searchservice.model.elasticsearch.MovieModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +12,7 @@ import org.springframework.core.convert.converter.Converter;
 
 import java.util.Map;
 
-public class SearchResponseToSearchResultsDtoConverter implements Converter<SearchResponse, SearchResultsDto> {
+public class SearchResponseToSearchResultsDtoConverter implements Converter<SearchResponse, SearchResultDto> {
     private static final Logger LOGGER = LogManager.getLogger(SearchResponseToSearchResultsDtoConverter.class.getName());
     private final ObjectMapper objectMapper;
     private final MovieModelToSearchResultModelConverter movieModelToSearchResultModelConverter = new MovieModelToSearchResultModelConverter();
@@ -22,8 +22,8 @@ public class SearchResponseToSearchResultsDtoConverter implements Converter<Sear
     }
 
     @Override
-    public SearchResultsDto convert(SearchResponse source) {
-        SearchResultsDto<SearchResultDto> results = new SearchResultsDto();
+    public SearchResultDto convert(SearchResponse source) {
+        SearchResultDto<MovieDto> results = new SearchResultDto();
         try {
             if (source == null) {
                 results.setTotal(-1);

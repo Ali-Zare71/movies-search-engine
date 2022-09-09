@@ -1,6 +1,6 @@
 package de.kaufland.moviesearch.indexservice.searchservice.service;
 
-import de.kaufland.moviesearch.indexservice.searchservice.model.dto.SearchResultsDto;
+import de.kaufland.moviesearch.indexservice.searchservice.model.dto.SearchResultDto;
 import de.kaufland.moviesearch.indexservice.searchservice.model.elasticsearch.ElasticsearchFields;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,17 +44,17 @@ public class SearchService {
         this.conversionService = conversionService;
     }
 
-    public SearchResultsDto search(String query, int page, int size, boolean fuzzySearch, boolean orQuery) {
+    public SearchResultDto search(String query, int page, int size, boolean fuzzySearch, boolean orQuery) {
         try {
             QueryBuilder queryBuilder = createQuery(query, fuzzySearch, orQuery);
             SearchRequest searchRequest = createSearchRequest(queryBuilder, page, size);
             SearchResponse searchResponse = elasticsearchService.executeQuery(searchRequest);
-            SearchResultsDto searchResultsDto = conversionService.convert(searchResponse, SearchResultsDto.class);
-            return searchResultsDto;
+            SearchResultDto searchResultDto = conversionService.convert(searchResponse, SearchResultDto.class);
+            return searchResultDto;
         } catch (Exception e) {
             LOGGER.catching(e);
         }
-        return new SearchResultsDto();
+        return new SearchResultDto();
     }
 
     /**

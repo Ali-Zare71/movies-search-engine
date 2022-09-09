@@ -1,6 +1,7 @@
 package de.kaufland.moviesearch.indexservice.searchservice.controller;
 
-import de.kaufland.moviesearch.indexservice.searchservice.model.dto.SearchResultsDto;
+import de.kaufland.moviesearch.indexservice.searchservice.model.dto.MovieDto;
+import de.kaufland.moviesearch.indexservice.searchservice.model.dto.SearchResultDto;
 import de.kaufland.moviesearch.indexservice.searchservice.service.SearchService;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api(tags = "Search API", value = " ")
-@RequestMapping("/movie")
+@RequestMapping("/movies")
 public class MovieController {
     private final SearchService searchService;
 
@@ -19,13 +20,13 @@ public class MovieController {
     }
 
 
-    @ApiOperation(value = "A list of available songs that are related to given query", response = SearchResultsDto.class)
+    @ApiOperation(value = "A list of available movies that are related to given query", response = MovieDto.class, responseContainer = "SearchResultDto")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully returned the result."),
             @ApiResponse(code = 500, message = "Internal server error.")
     })
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public SearchResultsDto searchQuery(
+    public SearchResultDto<MovieDto> searchQuery(
             @ApiParam(value = "User query")
             @RequestParam(value = "query") String query,
             @ApiParam(value = "Results page number (starts from 1)")
