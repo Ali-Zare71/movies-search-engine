@@ -10,7 +10,8 @@ public enum ElasticsearchFields {
     ACTORS("actors"),
     PARSED_ACTORS("parsedActors"),
     PLOT("plot"),
-    POSTER_URL("posterUrl");
+    POSTER_URL("posterUrl"),
+    TITLE_ACTORS_SEARCH("titleActorsSearch");
 
     private String fieldName;
 
