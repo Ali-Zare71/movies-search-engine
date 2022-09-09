@@ -2,6 +2,8 @@ package de.kaufland.moviesearch.indexservice.searchservice.service;
 
 import de.kaufland.moviesearch.indexservice.searchservice.model.dto.SearchResultDto;
 import de.kaufland.moviesearch.indexservice.searchservice.model.elasticsearch.ElasticsearchFields;
+import de.kaufland.moviesearch.indexservice.searchservice.model.exception.InternalServerErrorException;
+import de.kaufland.moviesearch.indexservice.searchservice.model.exception.NoResultsException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.search.SearchRequest;
@@ -38,23 +40,27 @@ public class SearchService {
     @Value("${fuzziness}")
     private String fuzziness;
 
-
     public SearchService(ElasticsearchService elasticsearchService, ConversionService conversionService) {
         this.elasticsearchService = elasticsearchService;
         this.conversionService = conversionService;
     }
 
-    public SearchResultDto search(String query, int page, int size, boolean fuzzySearch, boolean orQuery) {
+    public SearchResultDto search(String query, int page, int size, boolean fuzzySearch, boolean orQuery) throws InternalServerErrorException, NoResultsException {
         try {
             QueryBuilder queryBuilder = createQuery(query, fuzzySearch, orQuery);
             SearchRequest searchRequest = createSearchRequest(queryBuilder, page, size);
             SearchResponse searchResponse = elasticsearchService.executeQuery(searchRequest);
             SearchResultDto searchResultDto = conversionService.convert(searchResponse, SearchResultDto.class);
+            if (searchResultDto.getResults().size() == 0) {
+                throw new NoResultsException();
+            }
             return searchResultDto;
+        } catch (NoResultsException e) {
+            throw e;
         } catch (Exception e) {
             LOGGER.catching(e);
+            throw new InternalServerErrorException();
         }
-        return new SearchResultDto();
     }
 
     /**
