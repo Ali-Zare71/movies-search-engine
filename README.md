@@ -54,7 +54,7 @@ git clone https://github.com/Ali-Zare71/movies-search-engine.git
 **2. Build all services:** You can build all services by running `mvn package` command in the root folder of project.
 
 ```
-cd movie-search-engine
+cd movies-search-engine/
 mvn package
 ```
 
