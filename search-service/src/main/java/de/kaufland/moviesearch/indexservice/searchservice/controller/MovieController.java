@@ -24,7 +24,7 @@ public class MovieController {
             @ApiResponse(code = 200, message = "Successfully returned the result."),
             @ApiResponse(code = 500, message = "Internal server error.")
     })
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public SearchResultsDto searchQuery(
             @ApiParam(value = "User query")
             @RequestParam(value = "query") String query,
